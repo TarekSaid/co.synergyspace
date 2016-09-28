@@ -1,8 +1,6 @@
 package co.synergyspace.businesses.steps;
 
-import co.synergyspace.businesses.config.AppTestConfig;
-import co.synergyspace.businesses.config.PersistenceTestConfig;
-import co.synergyspace.businesses.config.WebTestConfig;
+import co.synergyspace.businesses.config.AppConfig;
 import co.synergyspace.businesses.entities.impl.BusinessEntity;
 import co.synergyspace.businesses.repositories.impl.BusinessRepository;
 import cucumber.api.DataTable;
@@ -10,13 +8,15 @@ import cucumber.api.java8.En;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.WebApplicationContext;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -24,14 +24,13 @@ import static org.assertj.core.api.Assertions.*;
  * Created by tarek on 21/09/16.
  */
 @WebAppConfiguration
-@ContextConfiguration(classes = {AppTestConfig.class, PersistenceTestConfig.class, WebTestConfig.class})
-@Transactional
+@ContextConfiguration(classes = {AppConfig.class})
 public class BusinessStepDefs extends AbstractTestNGSpringContextTests implements En {
 
     @Inject
     private BusinessRepository repository;
 
-    private final RestTemplate restTemplate;
+    private RestTemplate restTemplate = new RestTemplate();
 
     private String name;
 
@@ -41,26 +40,17 @@ public class BusinessStepDefs extends AbstractTestNGSpringContextTests implement
         restTemplate = new RestTemplate();
 
         Given("^that the following businesses exist$", (DataTable dataTable) -> {
-            List<BusinessEntity> businesses = new ArrayList<>();
+            List<BusinessEntity> businesses = dataTable.asList(BusinessEntity.class);
 
-            Map<Long, String> map = dataTable.asMap(Long.class, String.class);
-            for (Map.Entry<Long, String> entry : map.entrySet()) {
-                BusinessEntity b = new BusinessEntity();
-
-                b.setId(entry.getKey());
-                b.setName(entry.getValue());
-
-                businesses.add(b);
+            List<BusinessEntity> foundBusinesses = (List<BusinessEntity>) repository.findAll();
+            if (foundBusinesses.isEmpty()) {
+                repository.save(businesses);
             }
 
-            repository.save(businesses);
-
-            assertThat(repository.findAll()).containsAll(businesses);
+            assertThat(repository.findAll()).containsExactlyElementsOf(businesses);
         });
 
-        Given("^that I am the business \"([^\"]*)\"$", (String name) -> {
-            this.name = name;
-        });
+        Given("^that I am the business \"([^\"]*)\"$", (String name) -> this.name = name);
 
         When("I register my business", () -> {
             BusinessEntity be = new BusinessEntity(this.name);

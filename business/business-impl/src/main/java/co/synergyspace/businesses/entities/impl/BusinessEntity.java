@@ -8,16 +8,8 @@ import javax.persistence.*;
  * Concrete Business entity.
  * Created by tarek on 12/09/16.
  */
-@Entity
+@Entity(name = "businesses")
 public class BusinessEntity extends Business {
-
-    /**
-     * the business id
-     **/
-
-    /**
-     * the business name
-     **/
 
     /**
      * Business empty contructor.
@@ -31,7 +23,7 @@ public class BusinessEntity extends Business {
      * @param name the business name.
      */
     public BusinessEntity(String name) {
-        this.name = name;
+        super(name);
     }
 
     /**
@@ -41,8 +33,7 @@ public class BusinessEntity extends Business {
      * @param name the business name
      */
     public BusinessEntity(Long id, String name) {
-        this.id = id;
-        this.name = name;
+        super(id, name);
     }
 
     /**
@@ -57,15 +48,6 @@ public class BusinessEntity extends Business {
     }
 
     /**
-     * Sets the business id
-     *
-     * @param id the business id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
      * Returns the business name
      *
      * @return business name
@@ -73,14 +55,5 @@ public class BusinessEntity extends Business {
     @Column
     public String getName() {
         return name;
-    }
-
-    /**
-     * Sets the business name
-     *
-     * @param name the business name
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
  * Created by tarek on 12/09/16.
  */
 @Configuration
-@Import({PersistenceConfig.class, WebConfig.class})
-@ComponentScan({"co.synergyspace.businesses"})
+@Import({PersistenceContext.class, WebContext.class})
+@ComponentScan("co.synergyspace.businesses")
 public class AppConfig {
 }

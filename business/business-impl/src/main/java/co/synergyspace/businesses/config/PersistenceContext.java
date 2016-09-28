@@ -28,7 +28,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @PropertySource("classpath:persistence.properties")
 @EnableJpaRepositories("co.synergyspace.businesses.repositories")
-public class PersistenceConfig {
+public class PersistenceContext {
 
     @Inject
     private Environment env;
@@ -72,7 +72,7 @@ public class PersistenceConfig {
         Properties properties = new Properties();
 
         properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-        properties.put("org.hibernate.dialect", env.getProperty("org.hibernate.dialect"));
+        properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
 
         return properties;
     }

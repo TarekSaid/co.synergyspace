@@ -13,8 +13,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "co.synergyspace.businesses.controllers")
-public class WebConfig extends WebMvcConfigurerAdapter {
+@ComponentScan("co.synergyspace.businesses.controllers")
+public class WebContext extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {

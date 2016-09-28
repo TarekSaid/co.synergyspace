@@ -9,6 +9,23 @@ public abstract class Business {
     protected Long id;
     protected String name;
 
+    public Business() {
+
+    }
+
+    public Business(Long id) {
+        this.id = id;
+    }
+
+    public Business(String name) {
+        this.name = name;
+    }
+
+    public Business(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

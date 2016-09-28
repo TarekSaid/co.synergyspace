@@ -13,6 +13,7 @@ import java.util.List;
  * Created by tarek on 12/09/16.
  */
 public class BusinessDataProvider {
+
     @DataProvider(name = "businesses")
     public static Iterator<Object[]> createBusinesses() {
         List<Object[]> list = new ArrayList<>();
