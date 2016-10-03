@@ -2,6 +2,8 @@ package co.synergyspace.businesses.repositories;
 
 import co.synergyspace.businesses.entities.Business;
 
+import java.util.List;
+
 /**
  * Repository that holds Businesses.
  * Created by tarek on 12/09/16.
@@ -21,4 +23,6 @@ public interface IBusinessRepository<T extends Business> {
      * @return the business or null if not found.
      */
     T findByName(String name);
+
+    <S extends T> List<S> save(Iterable<S> businesses);
 }

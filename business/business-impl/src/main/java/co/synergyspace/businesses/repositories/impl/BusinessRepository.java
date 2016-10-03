@@ -3,6 +3,7 @@ package co.synergyspace.businesses.repositories.impl;
 import co.synergyspace.businesses.entities.impl.BusinessEntity;
 import co.synergyspace.businesses.repositories.IBusinessRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**

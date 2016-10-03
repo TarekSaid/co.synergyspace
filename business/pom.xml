@@ -15,7 +15,7 @@
     </modules>
 
     <properties>
-        <jdk.version>1.8</jdk.version>
+        <java.version>1.8</java.version>
         <testng.version>6.9.10</testng.version>
         <jmockit.version>1.27</jmockit.version>
         <assertj.version>3.5.2</assertj.version>
@@ -23,17 +23,14 @@
         <logback.version>1.1.7</logback.version>
         <h2.version>1.4.192</h2.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
-        <hibernate.jpa.version>1.0.1.Final</hibernate.jpa.version>
         <hibernate.version>5.2.2.Final</hibernate.version>
+        <mariadb.version>1.1.7</mariadb.version>
         <javax.inject.version>1</javax.inject.version>
-        <spring.version>4.3.2.RELEASE</spring.version>
-        <spring.jpa.version>1.10.3.RELEASE</spring.jpa.version>
-        <jackson.version>2.8.2</jackson.version>
+        <spring.boot.version>1.4.1.RELEASE</spring.boot.version>
     </properties>
 
     <dependencies>
         <!-- Test Dependencies -->
-
         <!-- Unit Tests with TestNG -->
         <dependency>
             <groupId>org.testng</groupId>
@@ -75,7 +72,6 @@
         </dependency>
 
         <!-- Compile Dependencies -->
-
         <!-- Logging -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -88,19 +84,11 @@
         <dependencies>
             <!-- Test Dependencies -->
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-test</artifactId>
-                <version>${spring.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
                 <groupId>info.cukes</groupId>
                 <artifactId>cucumber-spring</artifactId>
                 <version>${cucumber.version}</version>
                 <scope>test</scope>
             </dependency>
-
             <!-- Persistence Tests with H2 -->
             <dependency>
                 <groupId>com.h2database</groupId>
@@ -115,80 +103,31 @@
                 <artifactId>javax.servlet-api</artifactId>
                 <version>${javax.servlet.version}</version>
             </dependency>
-
-            <!-- Persistence with Hibernate JPA and MariaDB -->
+            <!-- Spring Boot -->
             <dependency>
-                <groupId>org.hibernate.javax.persistence</groupId>
-                <artifactId>hibernate-jpa-2.0-api</artifactId>
-                <version>${hibernate.jpa.version}</version>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
-
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-core</artifactId>
-                <version>${hibernate.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mariadb.jdbc</groupId>
-                <artifactId>mariadb-java-client</artifactId>
-                <version>1.1.7</version>
-            </dependency>
-
             <!-- Injection -->
             <dependency>
                 <groupId>javax.inject</groupId>
                 <artifactId>javax.inject</artifactId>
                 <version>${javax.inject.version}</version>
             </dependency>
-            <!-- Spring -->
+            <!-- Persistence with Hibernate and MariaDB -->
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <!-- Spring Context (ioc) -->
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${spring.version}</version>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-webmvc</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-aop</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-beans</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-orm</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-tx</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <!-- Spring JPA -->
-            <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-jpa</artifactId>
-                <version>${spring.jpa.version}</version>
-            </dependency>
-            <!-- Jackson jSon Library -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
+                <groupId>org.mariadb.jdbc</groupId>
+                <artifactId>mariadb-java-client</artifactId>
+                <version>${mariadb.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -200,8 +139,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.5.1</version>
                 <configuration>
-                    <source>${jdk.version}</source>
-                    <target>${jdk.version}</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -214,17 +153,15 @@
                     <version>2.6</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>2.19.1</version>
                 </plugin>
-
-                <plugin>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>jetty-maven-plugin</artifactId>
-                    <version>9.4.0.M1</version>
-                </plugin>
-
             </plugins>
         </pluginManagement>
     </build>
