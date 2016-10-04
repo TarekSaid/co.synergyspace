@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends IPostRepository<PostEntity>, GraphRepository<PostEntity> {
 
-    @Query("MATCH (p:Post)-[:WROTE]-(b:Business) WHERE id(b) = {business} RETURN p")
+    @Query("MATCH (p:Post)-[:WROTE]-(b:Business) WHERE id(b) = {business} RETURN p ORDER BY p.date DESC, p.id")
     Iterable<PostEntity> findByBusiness(@Param("business") Business business);
 }

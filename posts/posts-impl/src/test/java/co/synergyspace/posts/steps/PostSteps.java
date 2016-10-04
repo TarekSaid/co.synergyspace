@@ -51,7 +51,7 @@ public class PostSteps extends AbstractTestNGSpringContextTests implements En {
         Given("^that I have the following posts$", (DataTable dataTable) -> {
             List<PostEntity> posts = dataTable.asList(PostEntity.class);
 
-            posts.stream().forEach(p -> business.write(p));
+            posts.stream().forEachOrdered(p -> business.write(p));
             businessRepository.save(business);
 
             assertThat(postRepository.findByBusiness(business)).isNotEmpty();

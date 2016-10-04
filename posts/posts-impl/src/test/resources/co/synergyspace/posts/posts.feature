@@ -12,7 +12,7 @@ Feature: Posts Operations
     When I list my posts
     Then I should see
       """
-      [{"id":2,"date":null,"content":"Test"},{"id":1,"date":null,"content":"Hello"}]
+      [{"id":1,"date":null,"content":"Test"},{"id":2,"date":null,"content":"Hello"}]
       """
 
   Scenario: add a new Post
