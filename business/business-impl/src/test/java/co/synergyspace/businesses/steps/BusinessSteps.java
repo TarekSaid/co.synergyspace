@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.*;
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(classes = AppConfig.class)
-public class BusinessStepDefs extends AbstractTestNGSpringContextTests implements En {
+public class BusinessSteps extends AbstractTestNGSpringContextTests implements En {
 
     @Inject
     private IBusinessRepository<BusinessEntity> repository;
@@ -33,7 +33,7 @@ public class BusinessStepDefs extends AbstractTestNGSpringContextTests implement
 
     private String result;
 
-    public BusinessStepDefs() {
+    public BusinessSteps() {
         Given("^that the following businesses exist$", (DataTable dataTable) -> {
             List<BusinessEntity> businesses = dataTable.asList(BusinessEntity.class);
 

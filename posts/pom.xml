@@ -5,28 +5,29 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>co.synergyspace</groupId>
-    <artifactId>business</artifactId>
+    <artifactId>posts</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>business-api</module>
-        <module>business-impl</module>
+        <module>posts-api</module>
+        <module>posts-impl</module>
     </modules>
 
     <properties>
-        <java.version>1.8</java.version>
         <testng.version>6.9.10</testng.version>
         <jmockit.version>1.27</jmockit.version>
         <assertj.version>3.5.2</assertj.version>
         <cucumber.version>1.2.5</cucumber.version>
         <logback.version>1.1.7</logback.version>
-        <h2.version>1.4.192</h2.version>
         <javax.servlet.version>3.1.0</javax.servlet.version>
-        <hibernate.version>5.2.2.Final</hibernate.version>
-        <mariadb.version>1.1.7</mariadb.version>
-        <javax.inject.version>1</javax.inject.version>
         <spring.boot.version>1.4.1.RELEASE</spring.boot.version>
+        <javax.inject.version>1</javax.inject.version>
+        <neo4j.ogm.version>2.0.5</neo4j.ogm.version>
+        <compiler.version>3.5.1</compiler.version>
+        <java.version>1.8</java.version>
+        <maven.war.version>2.6</maven.war.version>
+        <maven.failsafe.version>2.19.1</maven.failsafe.version>
     </properties>
 
     <dependencies>
@@ -50,7 +51,6 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>${assertj.version}</version>
-            <scope>test</scope>
         </dependency>
         <!-- Integration Tests with Cucumber-JVM -->
         <dependency>
@@ -71,7 +71,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <!-- Compile Dependencies -->
         <!-- Logging -->
         <dependency>
@@ -90,11 +89,11 @@
                 <version>${cucumber.version}</version>
                 <scope>test</scope>
             </dependency>
-            <!-- Persistence Tests with H2 -->
+            <!-- Neo4J Embedded for Tests -->
             <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>${h2.version}</version>
+                <groupId>org.neo4j</groupId>
+                <artifactId>neo4j-ogm-embedded-driver</artifactId>
+                <version>${neo4j.ogm.version}</version>
                 <scope>test</scope>
             </dependency>
 
@@ -119,16 +118,16 @@
                 <artifactId>javax.inject</artifactId>
                 <version>${javax.inject.version}</version>
             </dependency>
-            <!-- Persistence with Hibernate and MariaDB -->
+            <!-- Neo4J Drivers -->
             <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-core</artifactId>
-                <version>${hibernate.version}</version>
+                <groupId>org.neo4j</groupId>
+                <artifactId>neo4j-ogm-bolt-driver</artifactId>
+                <version>${neo4j.ogm.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.mariadb.jdbc</groupId>
-                <artifactId>mariadb-java-client</artifactId>
-                <version>${mariadb.version}</version>
+                <groupId>org.neo4j</groupId>
+                <artifactId>neo4j-ogm-http-driver</artifactId>
+                <version>${neo4j.ogm.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -136,9 +135,8 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>${compiler.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -151,12 +149,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>${maven.war.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>2.19.1</version>
+                    <version>${maven.failsafe.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
