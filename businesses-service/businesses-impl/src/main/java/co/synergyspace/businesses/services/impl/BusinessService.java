@@ -1,8 +1,6 @@
 package co.synergyspace.businesses.services.impl;
 
 import co.synergyspace.businesses.entities.impl.BusinessEntity;
-import co.synergyspace.businesses.exceptions.BusinessException;
-import co.synergyspace.businesses.exceptions.impl.BusinessExistsException;
 import co.synergyspace.businesses.repositories.IBusinessRepository;
 import co.synergyspace.businesses.repositories.impl.BusinessRepository;
 import co.synergyspace.businesses.services.IBusinessService;
@@ -19,7 +17,7 @@ import javax.inject.Inject;
 public class BusinessService implements IBusinessService<BusinessEntity> {
 
     @Inject
-    private BusinessRepository businessRepository;
+    private IBusinessRepository<BusinessEntity> businessRepository;
 
     @Override
     public Iterable<BusinessEntity> findAll() {
@@ -37,10 +35,10 @@ public class BusinessService implements IBusinessService<BusinessEntity> {
 
     @Override
     public BusinessEntity addBusiness(BusinessEntity business) {
-        if (businessRepository.findByName(business.getName()) == null) {
+        try {
             return businessRepository.save(business);
+        } catch (DataIntegrityViolationException e) {
+            return null;
         }
-
-        throw new BusinessExistsException(business.getName());
     }
 }

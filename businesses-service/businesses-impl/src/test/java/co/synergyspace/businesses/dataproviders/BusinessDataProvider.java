@@ -29,7 +29,6 @@ public class BusinessDataProvider {
     public static Iterator<Object[]> createBusiness() {
         List<Object[]> params = new ArrayList<>();
 
-        params.add(new Object[]{"fail", null});
         params.add(new Object[]{"teste", new BusinessEntity("teste")});
         params.add(new Object[]{"teste2", new BusinessEntity("teste2")});
 

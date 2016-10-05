@@ -4,6 +4,7 @@ import co.synergyspace.businesses.dataproviders.BusinessDataProvider;
 import co.synergyspace.businesses.entities.Business;
 import co.synergyspace.businesses.entities.impl.BusinessEntity;
 import co.synergyspace.businesses.exceptions.impl.BusinessExistsException;
+import co.synergyspace.businesses.exceptions.impl.BusinessNotFoundException;
 import co.synergyspace.businesses.services.IBusinessService;
 import mockit.*;
 import org.testng.annotations.Test;
@@ -59,6 +60,16 @@ public class BusinessControllerTest {
         assertThat(businessController.getBusiness(name)).isEqualTo(business);
     }
 
+    @Test(expectedExceptions = BusinessNotFoundException.class)
+    public void getBusinessShouldThrowExceptionWhenNull() {
+        new Expectations() {{
+            businessService.findByName(anyString);
+            result = null;
+        }};
+
+        businessController.getBusiness("");
+    }
+
     public void addBusinessShouldCallSaveFromService(final @Mocked BusinessEntity be) {
         businessController.addBusiness(be);
 
@@ -80,7 +91,7 @@ public class BusinessControllerTest {
     @Test(expectedExceptions = BusinessExistsException.class)
     public void addBusinessShouldThrowBusinessExistsException(final @Mocked BusinessEntity business) {
         new Expectations() {{
-            businessService.addBusiness(business); result = new BusinessExistsException("teste");
+            businessService.addBusiness(business); result = null;
         }};
 
         businessController.addBusiness(business);

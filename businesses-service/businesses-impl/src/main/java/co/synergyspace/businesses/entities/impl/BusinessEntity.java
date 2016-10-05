@@ -52,7 +52,7 @@ public class BusinessEntity extends Business {
      *
      * @return business name
      */
-    @Column
+    @Column(unique = true)
     public String getName() {
         return name;
     }

@@ -3,11 +3,11 @@ package co.synergyspace.businesses.services.impl;
 import co.synergyspace.businesses.dataproviders.BusinessDataProvider;
 import co.synergyspace.businesses.entities.Business;
 import co.synergyspace.businesses.entities.impl.BusinessEntity;
-import co.synergyspace.businesses.exceptions.impl.BusinessExistsException;
+import co.synergyspace.businesses.repositories.IBusinessRepository;
 import co.synergyspace.businesses.repositories.impl.BusinessRepository;
 import mockit.*;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class BusinessServiceTest {
      * the mocked Business repository
      **/
     @Injectable
-    private BusinessRepository businessRepository;
+    private IBusinessRepository<BusinessEntity> businessRepository;
 
     @Mocked
     private BusinessEntity business;
@@ -98,30 +98,7 @@ public class BusinessServiceTest {
         assertThat(businessService.findByName("")).isNull();
     }
 
-    public void addBusinessShouldCallFindByNameFromRepository() {
-        new Expectations() {{
-            businessRepository.findByName(anyString);
-            result = null;
-        }};
-
-        businessService.addBusiness(business);
-
-        new Verifications() {{
-            businessRepository.findByName(anyString);
-        }};
-    }
-
-    @Test(expectedExceptions = BusinessExistsException.class)
-    public void addBusinessShouldThrowExceptionIfItExists() {
-        businessService.addBusiness(business);
-    }
-
     public void addBusinessShouldCallSaveFromRepository() {
-        new Expectations() {{
-            businessRepository.findByName(anyString);
-            result = null;
-        }};
-
         businessService.addBusiness(business);
 
         new Verifications() {{
@@ -132,12 +109,20 @@ public class BusinessServiceTest {
     @Test(dataProvider = "added-businesses", dataProviderClass = BusinessDataProvider.class)
     public void addBusinessShouldReturnSavedBusiness(final BusinessEntity business, final BusinessEntity savedBusiness) {
         new Expectations() {{
-            businessRepository.findByName(anyString);
-            result = null;
             businessRepository.save(business);
             result = savedBusiness;
         }};
 
         assertThat(businessService.addBusiness(business)).isEqualTo(savedBusiness);
+    }
+
+    @Test
+    public void addBusinessShouldReturnNullWhenNameIsDuplicated() {
+        new Expectations() {{
+            businessRepository.save(business);
+            result = new DataIntegrityViolationException("");
+        }};
+
+        assertThat(businessService.addBusiness(business)).isNull();
     }
 }

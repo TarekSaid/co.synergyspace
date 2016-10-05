@@ -24,5 +24,7 @@ public interface IBusinessRepository<T extends Business> {
      */
     T findByName(String name);
 
-    <S extends T> List<S> save(Iterable<S> businesses);
+    <S extends T> S save(S business);
+
+    <S extends T> Iterable<S> save(Iterable<S> businesses);
 }
