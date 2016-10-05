@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.*;
 /**
  * Created by tarek on 26/09/16.
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "eureka.client.enabled:false")
 @ContextConfiguration(classes = {AppConfig.class})
 public class PostSteps extends AbstractTestNGSpringContextTests implements En {
 
