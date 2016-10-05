@@ -67,7 +67,7 @@ public class PostSteps extends AbstractTestNGSpringContextTests implements En {
         });
 
         Then("^I should see$", (String json) -> {
-            assertThat(result).isEqualTo(json);
+            assertThat(result).matches(json);
         });
     }
 }

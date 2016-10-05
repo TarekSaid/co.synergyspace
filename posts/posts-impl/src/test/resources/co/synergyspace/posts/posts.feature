@@ -12,7 +12,7 @@ Feature: Posts Operations
     When I list my posts
     Then I should see
       """
-      [{"id":1,"date":null,"content":"Test"},{"id":2,"date":null,"content":"Hello"}]
+      \[\{"id":\d,"date":null,"content":"(Hello|Test)"\},\{"id":\d,"date":null,"content":"(Hello|Test)"\}\]
       """
 
   Scenario: add a new Post
@@ -20,5 +20,5 @@ Feature: Posts Operations
     When I add the Post "test"
     Then I should see
       """
-      {"id":3,"name":"Hello","posts":[{"id":4,"date":null,"content":"test"}]}
+      \{"id":3,"name":"Hello","posts":\[\{"id":4,"date":null,"content":"test"\}\]\}
       """
