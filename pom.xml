@@ -24,8 +24,9 @@
         <javax.servlet.version>3.1.0</javax.servlet.version>
         <javax.inject.version>1</javax.inject.version>
         <spring.boot.version>1.4.1.RELEASE</spring.boot.version>
-	<maven.war.version>2.6</maven.war.version>
-	<maven.failsafe.version>2.19.1</maven.failsafe.version>
+        <spring.cloud.version>Camden.RELEASE</spring.cloud.version>
+        <maven.war.version>2.6</maven.war.version>
+        <maven.failsafe.version>2.19.1</maven.failsafe.version>
     </properties>
 
     <dependencies>
@@ -105,6 +106,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- Injection -->
             <dependency>
                 <groupId>javax.inject</groupId>
@@ -133,28 +141,28 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
                     <version>${maven.war.version}</version>
-		    <configuration>
-			<failOnMissingWebXml>false</failOnMissingWebXml>
-		    </configuration>
+                    <configuration>
+                        <failOnMissingWebXml>false</failOnMissingWebXml>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>${maven.failsafe.version}</version>
-                <configuration>
-                    <includes>
-                        <include>IntegrationTests.java</include>
-                    </includes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>integration-test</id>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                    <configuration>
+                        <includes>
+                            <include>IntegrationTests.java</include>
+                        </includes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>integration-test</id>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
