@@ -6,9 +6,9 @@
 
     <parent>
         <groupId>co.synergyspace</groupId>
-        <artifactId>business</artifactId>
+        <artifactId>businesses-service</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>business-api</artifactId>
+    <artifactId>businesses-api</artifactId>
 </project>

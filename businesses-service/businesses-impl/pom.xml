@@ -5,44 +5,39 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>posts</artifactId>
         <groupId>co.synergyspace</groupId>
+        <artifactId>businesses-service</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>posts-impl</artifactId>
+    <artifactId>businesses-impl</artifactId>
     <packaging>war</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
-            <version>4.1.0</version>
-        </dependency>
         <!-- Test Dependencies -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-        </dependency>
-        <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-spring</artifactId>
         </dependency>
-        <!-- Neo4J Embedded for Tests -->
+        <!-- Test Persistence DB -->
         <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-ogm-embedded-driver</artifactId>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
         </dependency>
-        <!-- The Posts API -->
+        <!-- the Business API -->
         <dependency>
             <groupId>co.synergyspace</groupId>
-            <artifactId>posts-api</artifactId>
-            <version>${project.version}</version>
+            <artifactId>businesses-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- Servlet API -->
         <dependency>
@@ -68,23 +63,31 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- Persistence with Neo4J -->
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Persistence with Spring Data -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-neo4j</artifactId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-entitymanager</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        <!-- Hibernate -->
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-neo4j</artifactId>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
         </dependency>
-        <!-- Neo4J Drivers -->
+        <!-- MariaDB Database -->
         <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-ogm-bolt-driver</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-ogm-http-driver</artifactId>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
         </dependency>
     </dependencies>
 
@@ -93,9 +96,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -104,20 +104,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <includes>
-                        <include>IntegrationTests.java</include>
-                    </includes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>integration-test</id>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
