@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
  * Business Features Integration Tests
  * Created by tarek on 21/09/16.
  */
-@Test
 @CucumberOptions(plugin = "pretty")
 public class IntegrationTests extends AbstractTestNGCucumberTests {
 }
