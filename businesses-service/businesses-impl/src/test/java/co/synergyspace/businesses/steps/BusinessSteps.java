@@ -42,7 +42,7 @@ public class BusinessSteps extends AbstractTestNGSpringContextTests implements E
                 repository.save(businesses);
             }
 
-            assertThat(repository.findAll()).containsExactlyElementsOf(businesses);
+            assertThat(repository.findAll()).containsAll(businesses);
         });
 
         Given("^that I am the business \"([^\"]*)\"$", (String name) -> this.name = name);
@@ -62,7 +62,7 @@ public class BusinessSteps extends AbstractTestNGSpringContextTests implements E
 
 
         Then("^I should see$", (String json) -> {
-            assertThat(result).isEqualTo(json);
+            assertThat(result).matches(json);
         });
     }
 }

@@ -6,21 +6,21 @@ Feature: Business Operations
 
   Background:
     Given that the following businesses exist
-     | XPTO |
-     | ABCD |
+      | XPTO |
+      | ABCD |
 
   Scenario: Find business by name
     When I search for the business "XPTO"
     Then I should see
     """
-    {"id":1,"name":"XPTO"}
+    \{"id":1,"name":"XPTO"\}
     """
 
   Scenario: Find all businesses
     When I list all businesses
     Then I should see
       """
-      [{"id":1,"name":"XPTO"},{"id":2,"name":"ABCD"}]
+      (\[\{"id":2,"name":"ABCD"\},\{"id":1,"name":"XPTO"\}\]|\[\{"id":1,"name":"XPTO"\},\{"id":2,"name":"ABCD"\}\])
       """
 
   Scenario: Add a Business
@@ -29,5 +29,5 @@ Feature: Business Operations
     And I search for the business "Hello"
     Then I should see
       """
-      {"id":3,"name":"Hello"}
+      \{"id":3,"name":"Hello"\}
       """
