@@ -8,6 +8,7 @@ import cucumber.api.java8.En;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 
@@ -21,6 +22,7 @@ import static org.assertj.core.api.Assertions.*;
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "eureka.client.enabled:false")
 @ContextConfiguration(classes = AppConfig.class)
+@ActiveProfiles("test")
 public class BusinessSteps extends AbstractTestNGSpringContextTests implements En {
 
     @Inject
@@ -49,15 +51,15 @@ public class BusinessSteps extends AbstractTestNGSpringContextTests implements E
 
         When("I register my business", () -> {
             BusinessEntity be = new BusinessEntity(this.name);
-            this.result = restTemplate.postForObject("/business/new", be, String.class);
+            this.result = restTemplate.postForObject("/new", be, String.class);
         });
 
         When("^I search for the business \"([^\"]*)\"$", (String name) -> {
-            this.result = restTemplate.getForObject("/business/{name}", String.class, name);
+            this.result = restTemplate.getForObject("/{name}", String.class, name);
         });
 
         When("^I list all businesses$", () -> {
-            this.result = restTemplate.getForObject("/businesses", String.class);
+            this.result = restTemplate.getForObject("/", String.class);
         });
 
 
