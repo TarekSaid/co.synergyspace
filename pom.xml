@@ -20,6 +20,7 @@
         <module>discovery-service</module>
         <module>businesses-service</module>
         <module>posts-service</module>
+        <module>proxy-service</module>
     </modules>
 
     <properties>
