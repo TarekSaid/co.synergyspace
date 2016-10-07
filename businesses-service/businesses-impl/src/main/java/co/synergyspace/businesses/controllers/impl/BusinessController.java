@@ -20,20 +20,20 @@ public class BusinessController implements IBusinessController<BusinessEntity> {
     private IBusinessService<BusinessEntity> businessService;
 
     @Override
-    @RequestMapping(value = "businesses", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public Iterable<BusinessEntity> listBusinesses() {
         return businessService.findAll();
     }
 
     @Override
-    @RequestMapping(value = "business/{name}", method = RequestMethod.GET)
+    @RequestMapping(value = "{name}", method = RequestMethod.GET)
     public BusinessEntity getBusiness(@PathVariable String name) {
         return Optional.ofNullable(businessService.findByName(name)).orElseThrow(
                 () -> new BusinessNotFoundException(name));
     }
 
     @Override
-    @RequestMapping(value = "business/new", method = RequestMethod.POST)
+    @RequestMapping(value = "new", method = RequestMethod.POST)
     public BusinessEntity addBusiness(@RequestBody BusinessEntity business) {
         return Optional.ofNullable(businessService.addBusiness(business)).orElseThrow(
                 () -> new BusinessExistsException(business.getName()));
