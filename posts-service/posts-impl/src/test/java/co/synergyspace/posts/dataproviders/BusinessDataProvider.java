@@ -16,7 +16,6 @@ public class BusinessDataProvider {
     public static Iterator<Object[]> createBusinesses() {
         Collection<Object[]> params = new ArrayList<>();
 
-        params.add(new Object[]{"", null});
         params.add(new Object[]{"test", new BusinessEntity("test")});
         params.add(new Object[]{"hello", new BusinessEntity("hello")});
 
@@ -27,7 +26,6 @@ public class BusinessDataProvider {
     public static Iterator<Object[]> createSavedBusinesses() {
         Collection<Object[]> params = new ArrayList<>();
 
-        params.add(new Object[]{new BusinessEntity("testing"), null});
         params.add(new Object[]{new BusinessEntity(""), new BusinessEntity()});
         params.add(new Object[]{new BusinessEntity("hello"), new BusinessEntity("test1")});
 

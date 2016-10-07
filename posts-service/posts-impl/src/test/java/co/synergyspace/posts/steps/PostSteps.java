@@ -11,6 +11,7 @@ import cucumber.api.java8.En;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 
@@ -24,6 +25,7 @@ import static org.assertj.core.api.Assertions.*;
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "eureka.client.enabled:false")
 @ContextConfiguration(classes = {AppConfig.class})
+@ActiveProfiles("test")
 public class PostSteps extends AbstractTestNGSpringContextTests implements En {
 
     @Inject
@@ -58,12 +60,12 @@ public class PostSteps extends AbstractTestNGSpringContextTests implements En {
         });
 
         When("^I list my posts$", () -> {
-            this.result = restTemplate.getForObject("/business/{name}/posts", String.class, business.getName());
+            this.result = restTemplate.getForObject("/{name}/posts", String.class, business.getName());
         });
 
         When("^I add the Post \"([^\"]*)\"$", (String content) -> {
             Post post = new PostEntity(content);
-            this.result = restTemplate.postForObject("/business/{name}/post/new", post, String.class, business.getName());
+            this.result = restTemplate.postForObject("/{name}/posts/new", post, String.class, business.getName());
         });
 
         Then("^I should see$", (String json) -> {

@@ -6,6 +6,7 @@ import co.synergyspace.posts.entities.Business;
 import co.synergyspace.posts.entities.Post;
 import co.synergyspace.posts.entities.impl.BusinessEntity;
 import co.synergyspace.posts.entities.impl.PostEntity;
+import co.synergyspace.posts.exceptions.impl.BusinessNotFoundException;
 import co.synergyspace.posts.services.IBusinessService;
 import co.synergyspace.posts.services.IPostService;
 import mockit.*;
@@ -38,6 +39,15 @@ public class PostControllerTest {
         }};
     }
 
+    @Test(expectedExceptions = BusinessNotFoundException.class)
+    public void listPostsFromShouldThrowExceptionWhenNameNotFound() {
+        new Expectations() {{
+            businessService.findByName(anyString);
+            result = null;
+        }};
+
+        postController.listPostsFrom("");
+    }
 
     @Test(dataProvider = "businesses", dataProviderClass = BusinessDataProvider.class)
     public void listPostsFromShouldCallPostService(String name, BusinessEntity business) {
@@ -72,6 +82,16 @@ public class PostControllerTest {
         new Verifications() {{
             businessService.findByName(anyString);
         }};
+    }
+
+    @Test(expectedExceptions = BusinessNotFoundException.class)
+    public void addPostShouldThrowExceptionWhenNameNotFound(@Mocked PostEntity post) {
+        new Expectations() {{
+            businessService.findByName(anyString);
+            result = null;
+        }};
+
+        postController.writePost("", post);
     }
 
     @Test(dataProvider = "businesses", dataProviderClass = BusinessDataProvider.class)
