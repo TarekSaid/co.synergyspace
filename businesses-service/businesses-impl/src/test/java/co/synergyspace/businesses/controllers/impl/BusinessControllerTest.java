@@ -91,7 +91,8 @@ public class BusinessControllerTest {
     @Test(expectedExceptions = BusinessExistsException.class)
     public void addBusinessShouldThrowBusinessExistsException(final @Mocked BusinessEntity business) {
         new Expectations() {{
-            businessService.addBusiness(business); result = null;
+            businessService.addBusiness(business);
+            result = null;
         }};
 
         businessController.addBusiness(business);

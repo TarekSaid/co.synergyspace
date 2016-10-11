@@ -1,9 +1,7 @@
 package co.synergyspace.posts.services.impl;
 
-import co.synergyspace.posts.entities.Business;
 import co.synergyspace.posts.entities.Post;
 import co.synergyspace.posts.entities.impl.BusinessEntity;
-import co.synergyspace.posts.entities.impl.PostEntity;
 import co.synergyspace.posts.repositories.IBusinessRepository;
 import co.synergyspace.posts.services.IBusinessService;
 import org.springframework.stereotype.Service;

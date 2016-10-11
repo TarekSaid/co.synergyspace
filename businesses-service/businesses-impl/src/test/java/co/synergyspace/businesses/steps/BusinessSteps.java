@@ -5,6 +5,13 @@ import co.synergyspace.businesses.entities.impl.BusinessEntity;
 import co.synergyspace.businesses.repositories.IBusinessRepository;
 import cucumber.api.DataTable;
 import cucumber.api.java8.En;
+import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.UniquelyNamedQueue;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -20,7 +27,7 @@ import static org.assertj.core.api.Assertions.*;
 /**
  * Created by tarek on 21/09/16.
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "eureka.client.enabled:false")
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "spring.cloud.config.enabled:false")
 @ContextConfiguration(classes = AppConfig.class)
 @ActiveProfiles("test")
 public class BusinessSteps extends AbstractTestNGSpringContextTests implements En {

@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.*;
 /**
  * Created by tarek on 26/09/16.
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "eureka.client.enabled:false")
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "spring.cloud.config.enabled:false")
 @ContextConfiguration(classes = {AppConfig.class})
 @ActiveProfiles("test")
 public class PostSteps extends AbstractTestNGSpringContextTests implements En {
@@ -46,9 +46,18 @@ public class PostSteps extends AbstractTestNGSpringContextTests implements En {
         Given("^that I have the Business \"([^\"]*)\"$", (String name) -> {
             BusinessEntity b = new BusinessEntity(name);
             businessRepository.save(b);
+
             business = businessRepository.findByName(name);
             assertThat(business).isNotNull();
         });
+
+        Given("^that I don't have the Business \"([^\"]*)\"$", (String name) -> {
+            business = businessRepository.findByName(name);
+            assertThat(business).isNull();
+
+            business = new BusinessEntity(name);
+        });
+
 
         Given("^that I have the following posts$", (DataTable dataTable) -> {
             List<PostEntity> posts = dataTable.asList(PostEntity.class);
