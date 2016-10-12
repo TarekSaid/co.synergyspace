@@ -1,11 +1,11 @@
 package co.synergyspace.posts.consumers.impl;
 
-import co.synergyspace.posts.entities.impl.BusinessEntity;
 import co.synergyspace.posts.consumers.IBusinessConsumer;
+import co.synergyspace.posts.entities.impl.BusinessEntity;
 import co.synergyspace.posts.repositories.IBusinessRepository;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.integration.annotation.ServiceActivator;
 
 import javax.inject.Inject;
 
@@ -19,7 +19,7 @@ public class BusinessConsumer implements IBusinessConsumer<BusinessEntity> {
     private IBusinessRepository<BusinessEntity> businessRepository;
 
     @Override
-    @StreamListener(Sink.INPUT)
+    @ServiceActivator(inputChannel = Sink.INPUT)
     public void businessReceived(BusinessEntity business) {
         businessRepository.save(business);
     }
