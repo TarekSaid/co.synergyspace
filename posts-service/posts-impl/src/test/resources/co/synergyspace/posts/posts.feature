@@ -22,11 +22,3 @@ Feature: Posts Operations
       """
       \{"id":3,"name":"Hello","posts":\[\{"id":4,"date":null,"content":"test"\}\]\}
       """
-
-    Scenario: find all posts from non existing business
-      Given that I don't have the Business "Tarek"
-      When I list my posts
-      Then I should see
-      """
-      \{"timestamp":\d*,"status":404,"error":"Not Found","exception":"co.synergyspace.posts.exceptions.impl.BusinessNotFoundException","message":"Business \w+ does not exist.","path":"(/\w+)+"\}
-      """

@@ -51,14 +51,6 @@ public class PostSteps extends AbstractTestNGSpringContextTests implements En {
             assertThat(business).isNotNull();
         });
 
-        Given("^that I don't have the Business \"([^\"]*)\"$", (String name) -> {
-            business = businessRepository.findByName(name);
-            assertThat(business).isNull();
-
-            business = new BusinessEntity(name);
-        });
-
-
         Given("^that I have the following posts$", (DataTable dataTable) -> {
             List<PostEntity> posts = dataTable.asList(PostEntity.class);
 
