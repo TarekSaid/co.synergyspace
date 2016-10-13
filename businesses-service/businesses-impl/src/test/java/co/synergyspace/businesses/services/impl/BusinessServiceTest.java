@@ -3,11 +3,14 @@ package co.synergyspace.businesses.services.impl;
 import co.synergyspace.businesses.dataproviders.BusinessDataProvider;
 import co.synergyspace.businesses.entities.Business;
 import co.synergyspace.businesses.entities.impl.BusinessEntity;
+import co.synergyspace.businesses.producers.IBusinessProducer;
 import co.synergyspace.businesses.repositories.IBusinessRepository;
 import co.synergyspace.businesses.repositories.impl.BusinessRepository;
 import mockit.*;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.integration.support.MessageBuilder;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -32,6 +35,9 @@ public class BusinessServiceTest {
      **/
     @Injectable
     private IBusinessRepository<BusinessEntity> businessRepository;
+
+    @Injectable
+    private IBusinessProducer businessProducer;
 
     @Mocked
     private BusinessEntity business;
@@ -114,6 +120,14 @@ public class BusinessServiceTest {
         }};
 
         assertThat(businessService.addBusiness(business)).isEqualTo(savedBusiness);
+    }
+
+    public void addBusinessShouldSendNameToMessageBroker() {
+        businessService.addBusiness(business);
+
+        new Verifications() {{
+            businessProducer.send(business.getName());
+        }};
     }
 
     @Test

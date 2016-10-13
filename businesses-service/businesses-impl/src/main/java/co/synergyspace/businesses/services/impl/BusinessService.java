@@ -1,13 +1,14 @@
 package co.synergyspace.businesses.services.impl;
 
 import co.synergyspace.businesses.entities.impl.BusinessEntity;
+import co.synergyspace.businesses.producers.IBusinessProducer;
 import co.synergyspace.businesses.repositories.IBusinessRepository;
 import co.synergyspace.businesses.services.IBusinessService;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
-import org.springframework.integration.annotation.ServiceActivator;
+import org.springframework.integration.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -20,6 +21,9 @@ public class BusinessService implements IBusinessService<BusinessEntity> {
 
     @Inject
     private IBusinessRepository<BusinessEntity> businessRepository;
+
+    @Inject
+    private IBusinessProducer businessProducer;
 
     @Override
     public Iterable<BusinessEntity> findAll() {
@@ -36,10 +40,11 @@ public class BusinessService implements IBusinessService<BusinessEntity> {
     }
 
     @Override
-    @ServiceActivator(outputChannel = Source.OUTPUT)
     public BusinessEntity addBusiness(BusinessEntity business) {
         try {
-            return businessRepository.save(business);
+            BusinessEntity entity = businessRepository.save(business);
+            businessProducer.send(entity.getName());
+            return entity;
         } catch (DataIntegrityViolationException e) {
             return null;
         }

@@ -29,6 +29,12 @@ public class BusinessEntity extends Business {
     }
 
     @Override
+
+    public String getName() {
+        return super.getName();
+    }
+
+    @Override
     @Relationship(type = "WROTE")
     public List<Post> getPosts() {
         return super.getPosts();

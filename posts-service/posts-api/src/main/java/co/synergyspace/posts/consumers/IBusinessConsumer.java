@@ -5,7 +5,7 @@ import co.synergyspace.posts.entities.Business;
 /**
  * Created by tarek on 10/10/16.
  */
-public interface IBusinessConsumer<T extends Business> {
+public interface IBusinessConsumer {
 
-    void businessReceived(T business);
+    void businessCreated(String name);
 }
