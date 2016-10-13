@@ -5,6 +5,7 @@ spring:
     config:
       server:
         git:
-          uri: ${HOME}/.projetos/synergyspace-config/
+          uri: git@bitbucket.org:TarekSaid/synergyspace-config.git
+          clone-on-start: true
 server:
   port: 8888

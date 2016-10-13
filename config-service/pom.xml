@@ -13,10 +13,6 @@
     <artifactId>config-service</artifactId>
     <packaging>jar</packaging>
 
-    <properties>
-        <it.skip>true</it.skip>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
