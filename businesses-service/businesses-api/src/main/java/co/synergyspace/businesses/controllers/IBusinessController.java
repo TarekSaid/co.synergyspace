@@ -1,6 +1,7 @@
 package co.synergyspace.businesses.controllers;
 
 import co.synergyspace.businesses.entities.Business;
+import co.synergyspace.businesses.exceptions.BusinessException;
 
 /**
  * Entry point of the Business service.
@@ -21,7 +22,7 @@ public interface IBusinessController<T extends Business> {
      * @param name the business name
      * @return the corresponding business
      */
-    T getBusiness(String name);
+    T getBusiness(String name) throws BusinessException;
 
     /**
      * registers a new business.
@@ -29,5 +30,5 @@ public interface IBusinessController<T extends Business> {
      * @param business the business the register.
      * @return the saved business, with the ID.
      */
-    T addBusiness(T business);
+    T addBusiness(T business) throws BusinessException;
 }

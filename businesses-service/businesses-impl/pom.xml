@@ -106,6 +106,8 @@
     </dependencies>
 
     <build>
+        <finalName>${parent.artifactId}.${project.version}</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

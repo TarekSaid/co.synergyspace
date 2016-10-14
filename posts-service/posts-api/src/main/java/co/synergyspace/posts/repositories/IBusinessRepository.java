@@ -9,7 +9,5 @@ public interface IBusinessRepository<T extends Business> {
 
     <S extends T> S save(S business);
 
-    <S extends T> Iterable<S> save(Iterable<S> business);
-
     <T extends Business> T findByName(String name);
 }

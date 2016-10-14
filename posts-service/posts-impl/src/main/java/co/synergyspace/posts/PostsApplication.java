@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EntityScan({"co.synergyspace.posts.entities", "BOOT-INF.classes.co.synergyspace.posts.entities"})
 @SpringBootApplication
 @EnableEurekaClient
-public class AppConfig {
+public class PostsApplication {
     public static void main(String[] args) {
-        SpringApplication.run(AppConfig.class, args);
+        SpringApplication.run(PostsApplication.class, args);
     }
 }

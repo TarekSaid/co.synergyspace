@@ -1,6 +1,6 @@
 package co.synergyspace.posts.steps;
 
-import co.synergyspace.posts.AppConfig;
+import co.synergyspace.posts.PostsApplication;
 import co.synergyspace.posts.entities.Post;
 import co.synergyspace.posts.entities.impl.BusinessEntity;
 import co.synergyspace.posts.entities.impl.PostEntity;
@@ -9,7 +9,6 @@ import co.synergyspace.posts.repositories.IPostRepository;
 import cucumber.api.DataTable;
 import cucumber.api.java8.En;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,12 +18,13 @@ import javax.inject.Inject;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 /**
  * Created by tarek on 26/09/16.
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "spring.cloud.config.enabled:false")
-@ContextConfiguration(classes = {AppConfig.class})
+@SpringBootTest(webEnvironment = RANDOM_PORT, properties = "spring.cloud.config.enabled:false")
+@ContextConfiguration(classes = {PostsApplication.class})
 @ActiveProfiles("test")
 public class PostSteps extends AbstractTestNGSpringContextTests implements En {
 
@@ -42,11 +42,8 @@ public class PostSteps extends AbstractTestNGSpringContextTests implements En {
     private String result;
 
     public PostSteps() {
-
         Given("^that I have the Business \"([^\"]*)\"$", (String name) -> {
-            BusinessEntity b = new BusinessEntity(name);
-            businessRepository.save(b);
-
+            businessRepository.save(new BusinessEntity(name));
             business = businessRepository.findByName(name);
             assertThat(business).isNotNull();
         });
@@ -54,7 +51,7 @@ public class PostSteps extends AbstractTestNGSpringContextTests implements En {
         Given("^that I have the following posts$", (DataTable dataTable) -> {
             List<PostEntity> posts = dataTable.asList(PostEntity.class);
 
-            posts.stream().forEachOrdered(p -> business.write(p));
+            posts.forEach(p -> business.write(p));
             businessRepository.save(business);
 
             assertThat(postRepository.findByBusiness(business)).isNotEmpty();

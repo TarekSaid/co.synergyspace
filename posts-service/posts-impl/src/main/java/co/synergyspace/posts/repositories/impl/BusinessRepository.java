@@ -1,6 +1,5 @@
 package co.synergyspace.posts.repositories.impl;
 
-import co.synergyspace.posts.entities.Business;
 import co.synergyspace.posts.entities.impl.BusinessEntity;
 import co.synergyspace.posts.repositories.IBusinessRepository;
 import org.springframework.data.neo4j.repository.GraphRepository;

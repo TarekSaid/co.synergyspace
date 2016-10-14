@@ -1,19 +1,11 @@
 package co.synergyspace.businesses.steps;
 
-import co.synergyspace.businesses.AppConfig;
+import co.synergyspace.businesses.BusinessesApplication;
 import co.synergyspace.businesses.entities.impl.BusinessEntity;
 import co.synergyspace.businesses.repositories.IBusinessRepository;
 import cucumber.api.DataTable;
 import cucumber.api.java8.En;
-import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.UniquelyNamedQueue;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitAdmin;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,12 +15,13 @@ import javax.inject.Inject;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 /**
  * Created by tarek on 21/09/16.
  */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = "spring.cloud.config.enabled:false")
-@ContextConfiguration(classes = AppConfig.class)
+@SpringBootTest(webEnvironment = RANDOM_PORT, properties = "spring.cloud.config.enabled:false")
+@ContextConfiguration(classes = BusinessesApplication.class)
 @ActiveProfiles("test")
 public class BusinessSteps extends AbstractTestNGSpringContextTests implements En {
 

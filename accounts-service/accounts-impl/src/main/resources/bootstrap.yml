@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: accounts-service
+  profiles:
+    active: development

@@ -1,4 +1,4 @@
-package co.synergyspace.proxy;
+package co.synergyspace.site.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,9 +16,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableEurekaClient
 @EnableZuulProxy
 @EnableHystrix
-public class Application {
+public class SiteGatewayApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(SiteGatewayApplication.class, args);
     }
 
     @Configuration

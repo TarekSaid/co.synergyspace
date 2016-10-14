@@ -1,5 +1,5 @@
 spring:
   application:
-    name: proxy-service
+    name: site-gateway
 server:
   port: 9999
