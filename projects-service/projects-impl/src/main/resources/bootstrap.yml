@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: projects-service
+  profiles:
+    active: development
+---
+spring:
+  profiles: test
+  data:
+    neo4j:
+      embedded:
+        enabled: true
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: businesses
+          content-type: application/json
+          group: businesses-group
+eureka:
+  client:
+    enabled: false
