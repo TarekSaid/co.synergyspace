@@ -23,4 +23,15 @@ public class BusinessDataProvider {
 
         return params.iterator();
     }
+
+    @DataProvider(name = "savedBusinesses")
+    public static Iterator<Object[]> createSavedBusinesses() {
+        Collection<Object[]> params = new ArrayList<>();
+
+        params.add(new Object[]{new BusinessEntity(), new BusinessEntity("Hello")});
+        params.add(new Object[]{new BusinessEntity("Test"), new BusinessEntity("Another")});
+        params.add(new Object[]{new BusinessEntity("Third"), new BusinessEntity()});
+
+        return params.iterator();
+    }
 }

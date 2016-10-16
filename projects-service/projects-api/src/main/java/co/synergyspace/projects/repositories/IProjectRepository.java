@@ -9,4 +9,8 @@ import co.synergyspace.projects.entities.Project;
 public interface IProjectRepository<T extends Project> {
 
     Iterable<T> findByBusiness(Business business);
+
+    T findOne(Long id);
+
+    <S extends T> S save(S project);
 }

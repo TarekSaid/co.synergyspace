@@ -1,5 +1,6 @@
 package co.synergyspace.projects.services.impl;
 
+import co.synergyspace.projects.entities.Project;
 import co.synergyspace.projects.entities.impl.BusinessEntity;
 import co.synergyspace.projects.repositories.IBusinessRepository;
 import co.synergyspace.projects.services.IBusinessService;
@@ -19,5 +20,11 @@ public class BusinessService implements IBusinessService<BusinessEntity> {
     @Override
     public BusinessEntity findByName(String name) {
         return businessRepository.findByName(name);
+    }
+
+    @Override
+    public BusinessEntity addProject(BusinessEntity business, Project project) {
+        business.create(project);
+        return businessRepository.save(business);
     }
 }

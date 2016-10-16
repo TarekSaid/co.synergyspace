@@ -40,4 +40,37 @@ public class ProjectDataProvider {
 
         return params.iterator();
     }
+
+    @DataProvider(name = "projectById")
+    public static Iterator<Object[]> createProjectsById() {
+        Collection<Object[]> params = new ArrayList<>();
+
+        params.add(new Object[] {1L, new ProjectEntity(1L)});
+        params.add(new Object[] {2L, new ProjectEntity()});
+        params.add(new Object[] {3L, new ProjectEntity(5L)});
+
+        return params.iterator();
+    }
+
+    @DataProvider(name = "savedProjects")
+    public static Iterator<Object[]> createSavedProjects() {
+        Collection<Object[]> params = new ArrayList<>();
+
+        params.add(new Object[] {new ProjectEntity(), new ProjectEntity(1L)});
+        params.add(new Object[] {new ProjectEntity(2L), new ProjectEntity(2L)});
+        params.add(new Object[] {new ProjectEntity(5L), new ProjectEntity()});
+
+        return params.iterator();
+    }
+
+    @DataProvider(name = "addProjects")
+    public static Iterator<Object[]> createProject() {
+        Collection<Object[]> params = new ArrayList<>();
+
+        params.add(new Object[] {new ProjectEntity(), new BusinessEntity()});
+        params.add(new Object[] {new ProjectEntity(2L), new BusinessEntity("Tarek")});
+        params.add(new Object[] {new ProjectEntity(5L), new BusinessEntity("Leticia")});
+
+        return params.iterator();
+    }
 }

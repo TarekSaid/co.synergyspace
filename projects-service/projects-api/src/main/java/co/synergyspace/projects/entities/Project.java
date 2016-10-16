@@ -80,12 +80,12 @@ public abstract class Project {
         this.involved = involved;
     }
 
-    public void involve(Business business) {
+    public void involve(Set<? extends Business> businesses) {
         if (involved == null) {
             involved = new HashSet<>();
         }
 
-        involved.add(business);
+        involved.addAll(businesses);
     }
 
     @Override
