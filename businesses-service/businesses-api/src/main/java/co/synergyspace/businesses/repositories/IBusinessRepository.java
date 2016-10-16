@@ -9,6 +9,7 @@ import java.util.List;
  * Created by tarek on 12/09/16.
  */
 public interface IBusinessRepository<T extends Business> {
+    
     /**
      * finds all Businesses from the repository
      *

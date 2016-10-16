@@ -41,11 +41,11 @@ public class BusinessServiceTest {
         assertThat(businessService.findByName(name)).isEqualTo(business);
     }
 
-    public void addPostShouldWriteThePost(@Mocked BusinessEntity business) {
-        businessService.addPost(business, new PostEntity());
+    public void addPostShouldWriteThePost(@Mocked BusinessEntity business, @Mocked PostEntity post) {
+        businessService.addPost(business, post);
 
         new Verifications() {{
-            business.write((Post) any);
+            business.write(post);
         }};
     }
 

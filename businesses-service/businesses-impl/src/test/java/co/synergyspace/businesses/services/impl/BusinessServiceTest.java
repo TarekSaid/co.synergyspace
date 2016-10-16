@@ -130,7 +130,6 @@ public class BusinessServiceTest {
         }};
     }
 
-    @Test
     public void addBusinessShouldReturnNullWhenNameIsDuplicated() {
         new Expectations() {{
             businessRepository.save(business);

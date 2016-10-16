@@ -76,7 +76,7 @@ public class PostControllerTest {
         assertThat(postController.listPostsFrom(business.getName())).isEqualTo(posts);
     }
 
-    public void addPostShouldCallBusinessService() {
+    public void writePostShouldCallBusinessService() {
         postController.writePost("", new PostEntity());
 
         new Verifications() {{
@@ -85,7 +85,7 @@ public class PostControllerTest {
     }
 
     @Test(expectedExceptions = BusinessNotFoundException.class)
-    public void addPostShouldThrowExceptionWhenNameNotFound(@Mocked PostEntity post) {
+    public void writePostShouldThrowExceptionWhenNameNotFound(@Mocked PostEntity post) {
         new Expectations() {{
             businessService.findByName(anyString);
             result = null;
@@ -95,7 +95,7 @@ public class PostControllerTest {
     }
 
     @Test(dataProvider = "businesses", dataProviderClass = BusinessDataProvider.class)
-    public void addPostShouldCallPostService(String name, BusinessEntity business) {
+    public void writePostShouldCallPostService(String name, BusinessEntity business) {
         new Expectations() {{
             businessService.findByName(name);
             result = business;
