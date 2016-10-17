@@ -8,9 +8,9 @@ import co.synergyspace.projects.entities.impl.BusinessEntity;
 import co.synergyspace.projects.entities.impl.ProjectEntity;
 import co.synergyspace.projects.exceptions.impl.BusinessNotFoundException;
 import co.synergyspace.projects.exceptions.impl.ProjectNotFoundException;
+import co.synergyspace.projects.exceptions.impl.ProjectNotOwnedException;
 import co.synergyspace.projects.services.IBusinessService;
 import co.synergyspace.projects.services.IProjectService;
-import javafx.scene.web.PromptData;
 import mockit.Expectations;
 import mockit.Injectable;
 import mockit.Tested;
@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Created by tarek on 14/10/16.
@@ -79,32 +79,29 @@ public class ProjectControllerTest {
         assertThat(projectController.listProjectsFrom("")).isEqualTo(projects);
     }
 
-    public void getProjectShouldCallProjectService() {
-        projectController.getProject(1L);
-
-        new Verifications() {{
-            projectService.findProjectById(1L);
-        }};
-    }
-
-    @Test(dataProviderClass = ProjectDataProvider.class, dataProvider = "projectById")
-    public void getProjectShouldReturnProjectFound(Long id, ProjectEntity project) {
+    @Test(expectedExceptions = BusinessNotFoundException.class)
+    public void getProjectShouldThrowBusinessNotFoundExceptionWhenNull() {
         new Expectations() {{
-            projectService.findProjectById(id);
-            result = project;
-        }};
-
-        assertThat(projectController.getProject(id)).isEqualTo(project);
-    }
-
-    @Test(expectedExceptions = ProjectNotFoundException.class)
-    public void getProjectShouldThrowProjectNotFoundWhenNull() {
-        new Expectations() {{
-            projectService.findProjectById(anyLong);
+            businessService.findByName(anyString);
             result = null;
         }};
 
-        projectController.getProject(1L);
+        projectController.getProject("", 1L);
+    }
+
+    @Test(dataProviderClass = BusinessDataProvider.class, dataProvider = "ownedProjects")
+    public void getProjectShouldReturnProjectFound(String name, Long id, Business business, Project project) {
+        new Expectations() {{
+            businessService.findByName(name);
+            result = business;
+        }};
+
+        assertThat(projectController.getProject(name, id)).isEqualTo(project);
+    }
+
+    @Test(expectedExceptions = ProjectNotOwnedException.class)
+    public void getProjectShouldReturnProjectNotOwnedWhenNull() {
+        projectController.getProject("", 1L);
     }
 
     public void createProjectShouldFindBusiness() {
@@ -149,25 +146,44 @@ public class ProjectControllerTest {
         assertThat(projectController.createProject("", project)).isEqualTo(business);
     }
 
-    public void involveShouldCallProjectService() {
-        projectController.involve(1L, null);
-
-        new Verifications() {{
-            projectService.findProjectById(1L);
+    @Test(expectedExceptions = BusinessNotFoundException.class)
+    public void involveShouldThrowBusinessNotFoundWhenNull() {
+        new Expectations() {{
+            businessService.findByName(anyString);
+            result = null;
         }};
+
+        projectController.involve("", 1L, null);
     }
 
-    @Test(dataProviderClass = ProjectDataProvider.class, dataProvider = "projectById")
-    public void involveShouldAddBusinesses(Long id, ProjectEntity project) {
+    @Test(dataProviderClass = BusinessDataProvider.class, dataProvider = "ownedProjects")
+    public void involveShouldAddBusinesses(String name, Long id, Business business, ProjectEntity project) {
         new Expectations() {{
-            projectService.findProjectById(id);
-            result = project;
+            businessService.findByName(name);
+            result = business;
         }};
 
-        projectController.involve(id, null);
+        projectController.involve(name, id, null);
 
         new Verifications() {{
             projectService.involveBusinesses(project, (Set<BusinessEntity>) any);
         }};
+    }
+
+    @Test(expectedExceptions = ProjectNotOwnedException.class)
+    public void involveShouldThrowProjectNotOwnedExceptionWhenNotFound() {
+        projectController.involve("", 1L, null);
+    }
+
+    @Test(dataProviderClass = BusinessDataProvider.class, dataProvider = "ownedProjects")
+    public void involveShouldReturnProject(String name, Long id, Business business, ProjectEntity project) {
+        new Expectations() {{
+            businessService.findByName(name);
+            result = business;
+            projectService.involveBusinesses(project, null);
+            result = project;
+        }};
+
+        assertThat(projectController.involve(name, id, null)).isEqualTo(project);
     }
 }

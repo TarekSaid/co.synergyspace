@@ -17,7 +17,8 @@ Feature: Projects Operations
     """
 
   Scenario: find a project
-    Given that I have the following project:
+    Given that I have the business "Owner"
+    And that I have the following project:
       | name         | description                  | status |
       | SynergySpace | Manage Partners and Projects | ACTIVE |
     When I search for that project
@@ -26,18 +27,19 @@ Feature: Projects Operations
     \{"id":\d+,"name":"SynergySpace","description":"Manage Partners and Projects","status":"ACTIVE","involved":null\}
     """
 
-    Scenario: create a new Project
-      Given that I have the business "Creator"
-      When I add the project:
+  Scenario: create a new Project
+    Given that I have the business "Creator"
+    When I add the project:
       | name | description | status |
       | Test | Test        | ACTIVE |
-      Then I should see
+    Then I should see
       """
       \{"id":\d+,"name":"Creator","ownedProjects":\[\{"id":\d+,"name":"Test","description":"Test","status":"ACTIVE","involved":null\}\],"involvedIn":null\}
       """
 
   Scenario: Involving Businesses in a Project
-    Given that I have the following project:
+    Given that I have the business "Hello"
+    And that I have the following project:
       | name | description | status |
       | One  | Test        | ACTIVE |
     When I involve the following businesses:

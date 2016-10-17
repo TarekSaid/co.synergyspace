@@ -55,13 +55,13 @@ public class ProjectSteps extends AbstractTestNGSpringContextTests implements En
         Given("^that I have the following project(s)?:$", (String plural, DataTable dataTable) -> {
             List<ProjectEntity> projects = dataTable.asList(ProjectEntity.class);
 
-            if ("s".equals(plural)) {
-                projects.forEach(p -> business.create(p));
-                businessRepository.save(business);
-                assertThat(projectRepository.findByBusiness(business)).isNotEmpty();
-            } else {
-                project = projectRepository.save(projects.get(0));
-                assertThat(project).isNotNull();
+            projects.forEach(p -> business.create(p));
+            businessRepository.save(business);
+            List<ProjectEntity> projectList = (List<ProjectEntity>) projectRepository.findByBusiness(business);
+            assertThat(projectList).isNotEmpty();
+
+            if (plural == null) {
+                project = projectList.stream().findFirst().get();
             }
         });
 
@@ -80,11 +80,11 @@ public class ProjectSteps extends AbstractTestNGSpringContextTests implements En
 
             Iterable<BusinessEntity> businesses = businessRepository.save(bList);
             this.result = restTemplate.postForObject("/{name}/projects/{id}/involve", businesses,
-                    String.class, "Test", project.getId());
+                    String.class, business.getName(), project.getId());
         });
 
         When("^I search for that project$", () -> {
-            this.result = restTemplate.getForObject("/{name}/projects/{id}", String.class, "Test", project.getId());
+            this.result = restTemplate.getForObject("/{name}/projects/{id}", String.class, business.getName(), project.getId());
         });
 
         Then("^I should see$", (String json) -> {

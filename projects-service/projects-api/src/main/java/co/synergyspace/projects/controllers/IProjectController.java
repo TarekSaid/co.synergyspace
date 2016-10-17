@@ -14,9 +14,9 @@ public interface IProjectController<T extends Project, S extends Business> {
 
     Iterable<T> listProjectsFrom(String name) throws BusinessException;
 
-    T getProject(Long id);
+    T getProject(String name, Long id);
 
     Business createProject(String name, T project) throws BusinessException;
 
-    T involve(Long id, Set<S> businesses) throws BusinessException, ProjectException;
+    T involve(String name, Long id, Set<S> businesses) throws BusinessException, ProjectException;
 }
