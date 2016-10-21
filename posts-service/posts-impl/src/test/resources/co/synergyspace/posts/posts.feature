@@ -22,3 +22,13 @@ Feature: Posts Operations
       """
       \{"id":\d+,"name":"Hello","posts":\[\{"id":\d+,"date":null,"content":"test","replyingTo":null,"replies":null\}\]\}
       """
+
+    Scenario: find a Post
+      Given that I have the Business "Biz"
+      And that I have the following post
+      | Hi |
+      When I search for the post
+      Then I should see
+      """
+      \{"id":\d+,"date":null,"content":"Hi","replyingTo":null,"replies":null\}
+      """

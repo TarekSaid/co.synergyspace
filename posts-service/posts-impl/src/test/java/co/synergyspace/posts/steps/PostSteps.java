@@ -39,6 +39,8 @@ public class PostSteps extends AbstractTestNGSpringContextTests implements En {
 
     private BusinessEntity business;
 
+    private PostEntity post;
+
     private String result;
 
     public PostSteps() {
@@ -48,13 +50,18 @@ public class PostSteps extends AbstractTestNGSpringContextTests implements En {
             assertThat(business).isNotNull();
         });
 
-        Given("^that I have the following posts$", (DataTable dataTable) -> {
+        Given("^that I have the following post(s)?$", (String plural, DataTable dataTable) -> {
             List<PostEntity> posts = dataTable.asList(PostEntity.class);
 
             posts.forEach(p -> business.write(p));
             businessRepository.save(business);
 
-            assertThat(postRepository.findByBusiness(business)).isNotEmpty();
+            List<PostEntity> postList = (List<PostEntity>) postRepository.findByBusiness(business);
+            assertThat(postList).isNotEmpty();
+
+            if (plural == null) {
+                post = postList.stream().findFirst().get();
+            }
         });
 
         When("^I list my posts$", () -> {
@@ -64,6 +71,10 @@ public class PostSteps extends AbstractTestNGSpringContextTests implements En {
         When("^I add the Post \"([^\"]*)\"$", (String content) -> {
             Post post = new PostEntity(content);
             this.result = restTemplate.postForObject("/{name}/posts/new", post, String.class, business.getName());
+        });
+
+        When("^I search for the post$", () -> {
+            this.result = restTemplate.getForObject("/{name}/posts/{id}", String.class, business.getName(), post.getId());
         });
 
         Then("^I should see$", (String json) -> {

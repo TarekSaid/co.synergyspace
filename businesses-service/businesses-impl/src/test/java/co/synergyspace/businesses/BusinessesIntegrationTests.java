@@ -9,5 +9,5 @@ import org.testng.annotations.Test;
  * Created by tarek on 21/09/16.
  */
 @CucumberOptions(plugin = "pretty")
-public class IntegrationTests extends AbstractTestNGCucumberTests {
+public class BusinessesIntegrationTests extends AbstractTestNGCucumberTests {
 }
