@@ -7,6 +7,7 @@ import co.synergyspace.posts.entities.Post;
 import co.synergyspace.posts.entities.impl.BusinessEntity;
 import co.synergyspace.posts.entities.impl.PostEntity;
 import co.synergyspace.posts.exceptions.impl.BusinessNotFoundException;
+import co.synergyspace.posts.exceptions.impl.PostNotWrittenException;
 import co.synergyspace.posts.services.IBusinessService;
 import co.synergyspace.posts.services.IPostService;
 import mockit.*;
@@ -116,5 +117,30 @@ public class PostControllerTest {
         }};
 
         assertThat(postController.writePost("", post)).isEqualTo(business);
+    }
+
+    @Test(expectedExceptions = BusinessNotFoundException.class)
+    public void getPostShouldThrowBusinessNotFoundExceptionWhenNull() {
+        new Expectations() {{
+            businessService.findByName(anyString);
+            result = null;
+        }};
+
+        postController.getPost("", 1L);
+    }
+
+    @Test(dataProviderClass = BusinessDataProvider.class, dataProvider = "writtenPosts")
+    public void getPostShouldReturnPostFound(String name, Long id, Business business, Post post) {
+        new Expectations() {{
+            businessService.findByName(name);
+            result = business;
+        }};
+
+        assertThat(postController.getPost(name, id)).isEqualTo(post);
+    }
+
+    @Test(expectedExceptions = PostNotWrittenException.class)
+    public void getPostShouldThrowPostNotWrittenExceptionWhenNull() {
+        postController.getPost("", 1L);
     }
 }

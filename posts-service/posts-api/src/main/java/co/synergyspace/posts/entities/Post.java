@@ -1,6 +1,7 @@
 package co.synergyspace.posts.entities;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by tarek on 23/09/16.
@@ -10,6 +11,8 @@ public abstract class Post {
     protected Long id;
     protected Date date;
     protected String content;
+    protected Post replyingTo;
+    protected List<Post> replies;
 
     public Post() {
     }
@@ -44,6 +47,22 @@ public abstract class Post {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Post getReplyingTo() {
+        return replyingTo;
+    }
+
+    public void setReplyingTo(Post replyingTo) {
+        this.replyingTo = replyingTo;
+    }
+
+    public List<Post> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Post> replies) {
+        this.replies = replies;
     }
 
     @Override

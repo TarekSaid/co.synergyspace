@@ -5,7 +5,10 @@ import co.synergyspace.posts.entities.impl.BusinessEntity;
 import co.synergyspace.posts.entities.impl.PostEntity;
 import org.testng.annotations.DataProvider;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Created by tarek on 26/09/16.

@@ -2,11 +2,10 @@ package co.synergyspace.posts.controllers.impl;
 
 import co.synergyspace.posts.controllers.IPostController;
 import co.synergyspace.posts.entities.Business;
-import co.synergyspace.posts.entities.Post;
 import co.synergyspace.posts.entities.impl.BusinessEntity;
 import co.synergyspace.posts.entities.impl.PostEntity;
 import co.synergyspace.posts.exceptions.impl.BusinessNotFoundException;
-import co.synergyspace.posts.repositories.IBusinessRepository;
+import co.synergyspace.posts.exceptions.impl.PostNotWrittenException;
 import co.synergyspace.posts.services.IBusinessService;
 import co.synergyspace.posts.services.IPostService;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +39,15 @@ public class PostController implements IPostController<PostEntity> {
         BusinessEntity business = Optional.ofNullable(businessService.findByName(name)).orElseThrow(
                 () -> new BusinessNotFoundException(name));
         return businessService.addPost(business, post);
+    }
+
+    @Override
+    @RequestMapping(value = "{name}/posts/{id}", method = RequestMethod.GET)
+    public PostEntity getPost(@PathVariable String name, @PathVariable Long id) {
+        BusinessEntity business = Optional.ofNullable(businessService.findByName(name)).orElseThrow(
+                () -> new BusinessNotFoundException(name));
+
+        return (PostEntity) business.getPosts().parallelStream().filter(p -> p.getId() == id).findAny()
+                .orElseThrow(() ->  new PostNotWrittenException(id));
     }
 }
