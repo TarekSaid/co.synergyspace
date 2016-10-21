@@ -41,17 +41,17 @@ public class BusinessDataProvider {
         Collection<Object[]> params = new ArrayList<>();
 
         // projects
-        ProjectEntity p = new ProjectEntity(1L);
+        ProjectEntity p1 = new ProjectEntity(1L);
         ProjectEntity p2 = new ProjectEntity(2L);
         ProjectEntity p3 = new ProjectEntity(3L);
 
         // businesses
         BusinessEntity b = new BusinessEntity("test");
-        b.create(p);
+        b.create(p1);
         b.create(p2);
         b.create(p3);
 
-        params.add(new Object[]{"test", 1L, b, p});
+        params.add(new Object[]{"test", 1L, b, p1});
         params.add(new Object[]{"test", 2L, b, p2});
         params.add(new Object[]{"test", 3L, b, p3});
 

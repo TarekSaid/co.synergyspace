@@ -41,7 +41,7 @@ public class ProjectController implements IProjectController<ProjectEntity, Busi
         Business business = Optional.ofNullable(businessService.findByName(name)).orElseThrow(
                 () -> new BusinessNotFoundException(name));
 
-        return (ProjectEntity) business.getOwnedProjects().stream().filter(p -> p.getId() == id).findAny()
+        return (ProjectEntity) business.getOwnedProjects().parallelStream().filter(p -> p.getId() == id).findAny()
                 .orElseThrow(() -> new ProjectNotOwnedException(id));
     }
 
@@ -61,8 +61,8 @@ public class ProjectController implements IProjectController<ProjectEntity, Busi
         Business business = Optional.ofNullable(businessService.findByName(name)).orElseThrow(
                 () -> new BusinessNotFoundException(name));
 
-        ProjectEntity project = (ProjectEntity) business.getOwnedProjects().stream().filter(p -> p.getId() == id)
-                .findAny().orElseThrow(() -> new ProjectNotOwnedException(id));
+        ProjectEntity project = (ProjectEntity) business.getOwnedProjects().parallelStream()
+                .filter(p -> p.getId() == id).findAny().orElseThrow(() -> new ProjectNotOwnedException(id));
 
         return projectService.involveBusinesses(project, businesses);
     }
