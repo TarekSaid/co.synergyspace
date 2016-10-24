@@ -1,5 +1,6 @@
 package co.synergyspace.posts.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -63,6 +64,14 @@ public abstract class Post {
 
     public void setReplies(List<Post> replies) {
         this.replies = replies;
+    }
+
+    public void addReply(Post reply) {
+        if (replies == null) {
+            replies = new ArrayList<>();
+        }
+
+        replies.add(reply);
     }
 
     @Override

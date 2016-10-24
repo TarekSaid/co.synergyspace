@@ -77,6 +77,11 @@ public class PostSteps extends AbstractTestNGSpringContextTests implements En {
             this.result = restTemplate.getForObject("/{name}/posts/{id}", String.class, business.getName(), post.getId());
         });
 
+        When("^I reply \"([^\"]*)\"$", (String reply) -> {
+            Post replyPost = new PostEntity(reply);
+            this.result = restTemplate.postForObject("/{name}/posts/{id}/reply", replyPost, String.class, business.getName(), post.getId());
+        });
+
         Then("^I should see$", (String json) -> {
             assertThat(result).matches(json);
         });

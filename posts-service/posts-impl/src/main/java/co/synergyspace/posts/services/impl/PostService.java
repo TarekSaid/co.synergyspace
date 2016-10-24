@@ -21,4 +21,10 @@ public class PostService implements IPostService<PostEntity> {
     public Iterable<PostEntity> findPostsFrom(Business business) {
         return postRepository.findByBusiness(business);
     }
+
+    @Override
+    public PostEntity addReply(PostEntity post, PostEntity reply) {
+        post.addReply(reply);
+        return postRepository.save(post);
+    }
 }

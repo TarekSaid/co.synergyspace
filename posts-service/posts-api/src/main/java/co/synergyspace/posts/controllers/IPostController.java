@@ -15,4 +15,6 @@ public interface IPostController<T extends Post> {
     Business writePost(String name, T post) throws BusinessException;
 
     T getPost(String name, Long id) throws BusinessException, PostException;
+
+    T replyTo(String name, Long id, T reply) throws BusinessException, PostException;
 }

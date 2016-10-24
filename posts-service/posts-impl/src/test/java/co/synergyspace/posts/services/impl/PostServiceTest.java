@@ -48,4 +48,30 @@ public class PostServiceTest {
 
         assertThat(postService.findPostsFrom(business)).isEqualTo(posts);
     }
+
+    public void addReplyShouldAddReplyToPost(@Mocked PostEntity post, @Mocked PostEntity reply) {
+        new Expectations() {{
+            post.addReply(reply);
+        }};
+
+        postService.addReply(post, reply);
+    }
+
+    public void addReplyShouldCallPostRepository() {
+        postService.addReply(new PostEntity(), new PostEntity());
+
+        new Verifications() {{
+            postRepository.save((PostEntity) any);
+        }};
+    }
+
+    @Test(dataProviderClass = PostDataProvider.class, dataProvider = "replies")
+    public void addReplyShouldReturnPostWithReply(PostEntity post, PostEntity reply) {
+        new Expectations() {{
+            postRepository.save(post);
+            result = reply;
+        }};
+
+        assertThat(postService.addReply(post, reply)).isEqualTo(reply);
+    }
 }

@@ -37,4 +37,15 @@ public class PostDataProvider {
 
         return params.iterator();
     }
+
+    @DataProvider(name = "replies")
+    public static Iterator<Object[]> createReplies() {
+        Collection<Object[]> params = new ArrayList<>();
+
+        params.add(new Object[] {new PostEntity(), new PostEntity("reply")});
+        params.add(new Object[] {new PostEntity("post"), new PostEntity("reply")});
+        params.add(new Object[] {new PostEntity("reply"), new PostEntity("help")});
+
+        return params.iterator();
+    }
 }

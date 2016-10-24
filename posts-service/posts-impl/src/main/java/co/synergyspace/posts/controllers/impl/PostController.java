@@ -30,6 +30,7 @@ public class PostController implements IPostController<PostEntity> {
     public Iterable<PostEntity> listPostsFrom(@PathVariable String name) {
         Business business = Optional.ofNullable(businessService.findByName(name)).orElseThrow(
                 () -> new BusinessNotFoundException(name));
+
         return postService.findPostsFrom(business);
     }
 
@@ -38,6 +39,7 @@ public class PostController implements IPostController<PostEntity> {
     public Business writePost(@PathVariable String name, @RequestBody PostEntity post) {
         BusinessEntity business = Optional.ofNullable(businessService.findByName(name)).orElseThrow(
                 () -> new BusinessNotFoundException(name));
+
         return businessService.addPost(business, post);
     }
 
@@ -48,6 +50,18 @@ public class PostController implements IPostController<PostEntity> {
                 () -> new BusinessNotFoundException(name));
 
         return (PostEntity) business.getPosts().parallelStream().filter(p -> p.getId() == id).findAny()
-                .orElseThrow(() ->  new PostNotWrittenException(id));
+                .orElseThrow(() -> new PostNotWrittenException(id));
+    }
+
+    @Override
+    @RequestMapping(value = "{name}/posts/{id}/reply", method = RequestMethod.POST)
+    public PostEntity replyTo(@PathVariable String name, @PathVariable Long id, @RequestBody PostEntity reply) {
+        BusinessEntity business = Optional.ofNullable(businessService.findByName(name)).orElseThrow(
+                () -> new BusinessNotFoundException(name));
+
+        PostEntity post = (PostEntity) business.getPosts().parallelStream()
+                .filter(p -> p.getId() == id).findAny().orElseThrow(() -> new PostNotWrittenException(id));
+
+        return postService.addReply(post, reply);
     }
 }

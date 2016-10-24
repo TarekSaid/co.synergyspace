@@ -9,4 +9,6 @@ import co.synergyspace.posts.entities.Post;
 public interface IPostService<T extends Post> {
 
     Iterable<T> findPostsFrom(Business business);
+
+    T addReply(T post, T reply);
 }

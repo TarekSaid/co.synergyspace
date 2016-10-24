@@ -143,4 +143,50 @@ public class PostControllerTest {
     public void getPostShouldThrowPostNotWrittenExceptionWhenNull() {
         postController.getPost("", 1L);
     }
+
+    @Test(expectedExceptions = PostNotWrittenException.class)
+    public void replyToShouldCallBusinessService() {
+        postController.replyTo("", 1L, new PostEntity());
+
+        new Verifications() {{
+            businessService.findByName(anyString);
+        }};
+    }
+
+    @Test(expectedExceptions = BusinessNotFoundException.class)
+    public void replyToShouldThrowBusinessNotFoundExceptionWhenNull() {
+        new Expectations() {{
+            businessService.findByName(anyString);
+            result = null;
+        }};
+
+        postController.replyTo("", 1L, new PostEntity());
+    }
+
+    @Test(dataProviderClass = BusinessDataProvider.class, dataProvider = "writtenPosts")
+    public void replyToShouldFindThePost(String name, Long id, Business business, PostEntity post) {
+        new Expectations() {{
+            businessService.findByName(name);
+            result = business;
+        }};
+
+        postController.replyTo(name, id, new PostEntity());
+
+        new Verifications() {{
+            postService.addReply(post, (PostEntity) any);
+        }};
+    }
+
+    @Test(dataProviderClass = BusinessDataProvider.class, dataProvider = "writtenPosts")
+    public void replyToShouldReturnPostWithReply(String name, Long id, Business business, PostEntity post) {
+        new Expectations() {{
+            businessService.findByName(name);
+            result = business;
+
+            postService.addReply(post, (PostEntity) any);
+            result = post;
+        }};
+
+        assertThat(postController.replyTo(name, id, new PostEntity())).isEqualTo(post);
+    }
 }
