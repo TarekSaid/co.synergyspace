@@ -17,4 +17,40 @@
         <module>accounts-api</module>
         <module>accounts-impl</module>
     </modules>
+
+    <properties>
+        <h2.version>1.4.192</h2.version>
+        <hibernate.version>5.2.2.Final</hibernate.version>
+        <mariadb.version>1.1.7</mariadb.version>
+        <flyway.version>4.0.3</flyway.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Persistence Tests with H2 -->
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Persistence with Hibernate and MariaDB -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mariadb.jdbc</groupId>
+                <artifactId>mariadb-java-client</artifactId>
+                <version>${mariadb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${flyway.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
