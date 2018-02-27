@@ -7,7 +7,7 @@
     <parent>
         <artifactId>projects-service</artifactId>
         <groupId>co.synergyspace</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>projects-impl</artifactId>
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>co.synergyspace</groupId>
             <artifactId>projects-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <!-- Spring Boot -->
         <dependency>
@@ -94,7 +94,7 @@
     </dependencies>
 
     <build>
-        <finalName>${parent.artifactId}.${project.version}</finalName>
+        <finalName>${project.parent.artifactId}.${project.version}</finalName>
 
         <plugins>
             <plugin>
